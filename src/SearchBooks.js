@@ -18,12 +18,7 @@ class SearchBooks extends Component{
   }
 
   //fetching books from database
-  componentDidMount(){
-    BooksAPI.getAll().then((booksFetched)=>
-    {this.state.books = booksFetched
-      console.log(this.state.books)
-    })
-  }
+  componentDidMount(){BooksAPI.getAll().then((books)=>this.setState({books}))}
 
   //adding a book to shelf
   addBookToShelf = ()=>{
@@ -45,25 +40,28 @@ class SearchBooks extends Component{
 		if(query){
 			const match = new RegExp(escapeRegExp(query), "i");
 			showBooks = books.filter(
-        (book)=>{ if(match.test(book.title) || match.test(book.authors)) {return true;} }
+        (book)=>{
+          let isInFilter = false
+          if(match.test(book.title) || match.test(book.authors)) {isInFilter = true;}
+          return isInFilter
+        }
       )
 		}else{
 			showBooks = books
 		}
-    console.log(showBooks)
 	  showBooks.sort(sortBy("name"));
+    console.log(showBooks)
 
     return(
       <div className="search-books">
-        <div className="search-books-bar">
-        <Link to="/" className="close-search" innerRef={this.clearQuery}/>
 
+        <div className="search-books-bar">
+          <Link to="/" className="close-search" innerRef={this.clearQuery}/>
           <div className="search-books-input-wrapper">
             {/*
               NOTES: The search from BooksAPI is limited to a particular set of search terms.
               You can find these search terms here:
               https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
               However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
               you don't find a specific author or title. Every search is limited by search terms.
             */}
@@ -73,11 +71,36 @@ class SearchBooks extends Component{
               value={query}
               onChange={(event)=>this.updateQuery(event.target.value)}
             />
-
           </div>
         </div>
+
         <div className="search-books-results">
-          <ol className="books-grid"></ol>
+          <ol className="books-grid">
+           {showBooks.map((book)=>
+             <li key={book.id}>
+               <div className="book">
+                 <div className="book-top">
+                   <div className="book-cover"
+                    style={{ width: 128, height: 193,
+                      backgroundImage: `url(${book.imageLinks.smallThumbnail})`}}>
+                   </div>
+                   <div className="book-shelf-changer">
+                     <select>
+                       <option value="none" disabled>Move to...</option>
+                       <option value="currentlyReading">Currently Reading</option>
+                       <option value="wantToRead">Want to Read</option>
+                       <option value="read">Read</option>
+                       <option value="none">None</option>
+                     </select>
+                   </div>
+                 </div>
+                 <div className="book-title">{book.title}</div>
+                 { book.authors.map((author)=>
+                   <div className="book-authors" key={author} >{author}</div>)}
+               </div>
+             </li>
+           )}
+          </ol>
         </div>
       </div>
     )
