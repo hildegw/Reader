@@ -2,11 +2,34 @@ import React, {Component} from "react"
 import {Link} from "react-router-dom"
 import escapeRegExp from "escape-string-regexp";
 import sortBy from "sort-by";
+import PropTypes from "prop-types";
+import * as BooksAPI from "./BooksAPI"
 
 
 class SearchBooks extends Component{
-	state = {
-	query: "",
+  //props to be renderd in App.js
+  static propTypes = {
+		onSearchBooks: PropTypes.func.isRequired,
+	}
+
+  state = {
+    books: [],
+    query: "",
+  }
+
+  //fetching books from database
+  componentDidMount(){
+    BooksAPI.getAll().then((booksFetched)=>
+    {this.state.books = booksFetched
+      console.log(this.state.books)
+    })
+  }
+
+  //adding a book to shelf
+  addBookToShelf = ()=>{
+    //TODO get event and value for newBook from input field
+    const newBook = ""
+    if (this.props.onSearchBooks) this.props.onSearchBooks(newBook)
   }
 
   updateQuery = (target)=>{
@@ -16,22 +39,24 @@ class SearchBooks extends Component{
   clearQuery = ()=>{this.setState({query: ""})}
 
   render(){
-    const {query} = this.state
-    //const {books} = this.props  //TODO books have to come from DB
-		let showBooks;
+    //render books with query results
+    let showBooks = []
+    const {query, books} = this.state
 		if(query){
 			const match = new RegExp(escapeRegExp(query), "i");
-			//showBooks = books.filter((book)=>match.test(book.name)); //TODO check filter
+			showBooks = books.filter(
+        (book)=>{ if(match.test(book.title) || match.test(book.authors)) {return true;} }
+      )
 		}else{
-			//showingContacts = contacts;
+			showBooks = books
 		}
-
-		//showBooks.sort(sortBy("name"));
+    console.log(showBooks)
+	  showBooks.sort(sortBy("name"));
 
     return(
       <div className="search-books">
         <div className="search-books-bar">
-        <Link to="/" className="close-search"/>
+        <Link to="/" className="close-search" innerRef={this.clearQuery}/>
 
           <div className="search-books-input-wrapper">
             {/*
@@ -42,7 +67,12 @@ class SearchBooks extends Component{
               However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
               you don't find a specific author or title. Every search is limited by search terms.
             */}
-            <input type="text" placeholder="Search by title or author"/>
+            <input
+              type="text"
+              placeholder="Search by title or author"
+              value={query}
+              onChange={(event)=>this.updateQuery(event.target.value)}
+            />
 
           </div>
         </div>

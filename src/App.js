@@ -10,9 +10,11 @@ import BooksOnShelf from "./BooksOnShelf"
 class BooksApp extends React.Component {
   state = {
     booksOnShelf: [],
-    showSearchPage: true,
   }
 
+addBook = (newBook) => {
+  //TODO
+}
 
   render() {
     return (
@@ -27,8 +29,9 @@ class BooksApp extends React.Component {
 
         <Route path="/search" render={({history})=>(
           <SearchBooks
-            onSearchBooks={()=>{
+            onSearchBooks={(newBook)=>{
               history.push("/")
+              this.addBook(newBook)
             }}
           />
         )}/>
