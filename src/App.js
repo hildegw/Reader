@@ -179,21 +179,19 @@ class BooksApp extends React.Component {
                 </div>
               </div>
             </div>
+            <div className="open-search">
+              <Link to="/search"  >Add a book</Link>
+            </div>
           </div>
         )}/>
-
-        <div className="open-search">
-          <Link to="/search">Add a book</Link>
-            <Route path="/search" render={({history})=>(
-              <SearchBooks
-                onAddBook={(book)=>{
-                  this.addBook(book)
-                  history.push("/")
-                }}
-              />
-            )}
+        <Route path="/search" render={({history})=>(
+          <SearchBooks
+            onAddBook={(book)=>{
+              this.addBook(book)
+              history.push("/")
+            }}
           />
-        </div>
+        )}/>
       </div>
     )
   }
