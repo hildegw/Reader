@@ -1,10 +1,32 @@
 import React, {Component} from "react"
 import {Link} from "react-router-dom"
+import escapeRegExp from "escape-string-regexp";
+import sortBy from "sort-by";
 
 
 class SearchBooks extends Component{
+	state = {
+	query: "",
+  }
+
+  updateQuery = (target)=>{
+  this.setState({query: target.trim()})
+  }
+
+  clearQuery = ()=>{this.setState({query: ""})}
 
   render(){
+    const {query} = this.state
+    //const {books} = this.props  //TODO books have to come from DB
+		let showBooks;
+		if(query){
+			const match = new RegExp(escapeRegExp(query), "i");
+			//showBooks = books.filter((book)=>match.test(book.name)); //TODO check filter
+		}else{
+			//showingContacts = contacts;
+		}
+
+		//showBooks.sort(sortBy("name"));
 
     return(
       <div className="search-books">
