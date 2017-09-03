@@ -10,14 +10,15 @@ class SearchBooks extends Component{
   //props to be renderd in App.js
   static propTypes = {
 		onSearchBooks: PropTypes.func.isRequired,
+    onAddingToShelf: PropTypes.func.isRequired,
 	}
-  //TODO propTypes:  addBookToShelf: PropTypes.func.isRequired,
-  //TODO: list of books changes order when books are selected
+  //TODO: list of books changes order when books are selected, first selected is not added
 
+  //keeping track of books to display
   state = {
     books: [],
-    query: "Android",  //only limited list of search parameters available
-    maxResults: 5,
+    query: "Art",  //only limited list of search parameters available
+    maxResults: 25,    //TODO: does not seem to work
   }
 
   //fetching books from database
@@ -25,6 +26,7 @@ class SearchBooks extends Component{
     .then((books)=>this.setState({books}))}
   //componentDidMount(){BooksAPI.getAll().then((books)=>this.setState({books}))}
 
+  //handing selected books over to App.js to store in book shelf
   submitBookToShelf = (target, id)=>{
     this.props.onAddingToShelf(target, id)
   }
@@ -39,7 +41,7 @@ class SearchBooks extends Component{
   render(){
     const {query, books} = this.state
 
-    //filter books to render with query results
+    //filtering books to render with query results
     let showBooks = []
     if(query){
 			const match = new RegExp(escapeRegExp(query), "i");
@@ -52,6 +54,7 @@ class SearchBooks extends Component{
 		} else { showBooks = books }
 	  showBooks.sort(sortBy("name"))
 
+    //displaying the list of books
     return(
       <div className="search-books">
 

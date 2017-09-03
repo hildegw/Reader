@@ -4,28 +4,33 @@ import PropTypes from "prop-types";
 import * as BooksAPI from "./BooksAPI"
 
 class BooksOnShelf extends Component {
+
+  /*/the book shelf data is made available as myBooks prop
   static propTypes = {
-    myBooks: PropTypes.array.isRequired
-	}
+    myBooks: PropTypes.Object.isRequired
+	}*/
 
-
-  getBookWithId = (id)=>{
-    BooksAPI.get(id)
+  //TODO display book shelf data
+  getBookWithId = ()=>{
+    BooksAPI.get()
+    console.log(this.props.myBooks)
   }
 
-  //TODO
-  componentDidMount(){
-  }
 
+  /* this is what the returned data looks like TODO
+    {currentlyReading  :  (2) ["nggnmAEACAAJ", "sJf1vQAACAAJ"]
+    read  :  (3) ["jAUODAAAQBAJ", "IOejDAAAQBAJ", "1wy49i-gQjIC"]
+    wantToRead :  (2) ["evuwdDLfAyYC", "74XNzF_al3MC"]}
+  */
 
   render(){
-    console.log(this.props.myBooks)
 
     return(
       <div className="list-books">
         <div className="list-books-title">
           <h1>MyReads</h1>
         </div>
+        <div>{JSON.stringify(this.props.myBooks)}</div>
         <div className="list-books-content">
           <div>
             <div className="bookshelf">

@@ -3,6 +3,7 @@ import {Route} from "react-router-dom"
 import './App.css'
 import SearchBooks from "./SearchBooks"
 import BooksOnShelf from "./BooksOnShelf"
+import * as BooksAPI from "./BooksAPI"
 
 
 //feature ideas:
@@ -10,10 +11,11 @@ import BooksOnShelf from "./BooksOnShelf"
   //nicer layout for context menu
   //connect to Google books
   //show book info when clicking on book
-  //connect to Amazon
+  //connect to Amazon    let book = {shelf: shelf, id: bookId}
+
   //editable maxResults
 //TODO
-  //context menu and routing
+  //context menu and routing URLs
 
 
 class BooksApp extends React.Component {
@@ -21,15 +23,16 @@ class BooksApp extends React.Component {
     myBooks: []
   }
 
+  //saving the added book shelf data to server and to myBooks state
   addBookToShelf = (shelf, bookId) => {
-    console.log("App " + shelf + bookId)
-    let book = {shelf: shelf, id: bookId}
-    console.log(book)
-    this.setState(state=>({
-      myBooks: state.myBooks.concat([book])
-    }))
+    BooksAPI.update(bookId, shelf).then((myBooks)=>this.setState({myBooks}))
     console.log(this.state.myBooks)
   }
+
+/*  rendering either the book shelfs or the search list
+ *  myBooks data is handed down to BooksOnShelf
+ *  SearchBooks hands up books to add to shelf
+ */
 
   render() {
     return (
