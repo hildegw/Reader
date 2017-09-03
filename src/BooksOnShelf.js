@@ -7,16 +7,36 @@ import ShowBook from "./ShowBook"
 
 class BooksOnShelf extends Component {
 
-  /*/the book shelf data is made available as myBooks prop
+  //the book shelf data is made available as myBooks prop
   static propTypes = {
-    myBooks: PropTypes.Object.isRequired
-	}*/
+    myBooks: PropTypes.object.isRequired
+	}
 
-  //TODO display book shelf data
-  getBookWithId = ()=>{
-    BooksAPI.get()
-    console.log(this.props.myBooks)
+  //state for fetching the books for shelf from DB
+  state = {
+    currentlyBooks: [],
   }
+
+  changeBookShelf = (shelf, id)=>{
+
+  }
+
+
+
+  componentDidMount(){
+      const books = this.props.myBooks
+      if (books.currentlyReading !== undefined) {
+        console.log(books)
+        console.log(books.currentlyReading)
+        books.currentlyReading.map((id)=>{
+          BooksAPI.get(id).then((book)=>{
+            console.log(book)
+            this.setState(state=>({
+              currentlyBooks: state.currentlyBooks.concat([book])
+            }))
+          })
+        })
+    }}
 
 
   /* this is what the returned data looks like TODO
@@ -26,41 +46,33 @@ class BooksOnShelf extends Component {
   */
 
   render(){
-
+    console.log(this.state.currentlyBooks)
     return(
       <div className="list-books">
         <div className="list-books-title">
           <h1>MyReads</h1>
         </div>
-        <div>{JSON.stringify(this.props.myBooks)}</div>
         <div className="list-books-content">
           <div>
             <div className="bookshelf">
               <h2 className="bookshelf-title">Currently Reading</h2>
               <div className="bookshelf-books">
                 <ol className="books-grid">
-                  <li>
-                    <div className="book">
-                      <div className="book-top">
-                        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url("http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api")' }}></div>
-                        <div className="book-shelf-changer">
-                          <select>
-                            <option value="none" disabled>Move to...</option>
-                            <option value="currentlyReading">Currently Reading</option>
-                            <option value="wantToRead">Want to Read</option>
-                            <option value="read">Read</option>
-                            <option value="none">None</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="book-title">To Kill a Mockingbird</div>
-                      <div className="book-authors">Harper Lee</div>
-                    </div>
-                  </li>
+                 {this.state.currentlyBooks.map((book)=>
+                   <li key={book.id}>
+
+                     <ShowBook
+                       bookToShow={book}
+                       onAddingToShelf={(shelf, bookId)=>{
+                         this.changeBookShelf(shelf, bookId)
+                       }}
+                     />
+
+                   </li>
+                 )}
                 </ol>
               </div>
             </div>
-
 
             <div className="bookshelf">
               <h2 className="bookshelf-title">Want to Read</h2>
@@ -114,6 +126,7 @@ class BooksOnShelf extends Component {
                 </ol>
               </div>
             </div>
+
           </div>
         </div>
 

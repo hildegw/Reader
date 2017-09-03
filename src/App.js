@@ -20,13 +20,12 @@ import * as BooksAPI from "./BooksAPI"
 
 class BooksApp extends React.Component {
   state = {
-    myBooks: []
+    myBooks: {} //just bookId and shelf info
   }
 
   //saving the added book shelf data to server and to myBooks state
   addBookToShelf = (shelf, bookId) => {
     BooksAPI.update(bookId, shelf).then((myBooks)=>this.setState({myBooks}))
-    console.log(this.state.myBooks)
   }
 
 /*  rendering either the book shelfs or the search list
@@ -35,6 +34,7 @@ class BooksApp extends React.Component {
  */
 
   render() {
+
     return (
       <div className="app">
         <Route exact path="/" render={()=>(

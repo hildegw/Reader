@@ -1,17 +1,13 @@
 import React, {Component} from "react"
-import {Link} from "react-router-dom"
-import escapeRegExp from "escape-string-regexp";
-import sortBy from "sort-by";
 import PropTypes from "prop-types";
-import * as BooksAPI from "./BooksAPI"
 
 
 class ShowBook extends Component{
   //props to be renderd in App.js
-  /*static propTypes = {
-		bookToShow: PropTypes.Object.isRequired,
+  static propTypes = {
+		bookToShow: PropTypes.object.isRequired,
     onAddingToShelf: PropTypes.func.isRequired,
-	}*/
+	}
   //TODO: list of books changes order when books are selected, first selected is not added
 
   //handing selected books over to App.js via SearchBooks to store in book shelf
@@ -23,7 +19,7 @@ class ShowBook extends Component{
   //rendering the filtered books with thumbnail, title, and authors
   render(){
     const book = this.props.bookToShow
-
+    
     //displaying one book plus menu
     return(
        <div className="book">
