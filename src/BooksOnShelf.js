@@ -1,28 +1,13 @@
 import React, {Component} from "react"
 import {Link} from "react-router-dom"
-//import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import * as BooksAPI from "./BooksAPI"
 
-
-
 class BooksOnShelf extends Component {
-  /*static propTypes = {
-    // TODO
-	}*/
+  static propTypes = {
+    myBooks: PropTypes.array.isRequired
+	}
 
-  state = {
-      booksReading: [],
-      booksWantTo: [],
-      booksRead: [],
-    }
-
-  u/*pdateBookShelf = (newBook, shelf)=>{
-    BooksAPI.update(newBook, shelf).then((newBook)=>
-      this.setState((state, newBook)=>({
-        booksRead: state.booksRead.concat([newBook])
-      }))
-    )
-  }*/
 
   getBookWithId = (id)=>{
     BooksAPI.get(id)
@@ -30,15 +15,11 @@ class BooksOnShelf extends Component {
 
   //TODO
   componentDidMount(){
-    let bookthing = {"title": "avx"}
-    console.log([bookthing])
-    this.updateBookShelf(bookthing, "booksRead")
-    console.log(this.state.booksRead)
   }
 
 
   render(){
-
+    console.log(this.props.myBooks)
 
     return(
       <div className="list-books">

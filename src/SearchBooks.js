@@ -12,7 +12,7 @@ class SearchBooks extends Component{
 		onSearchBooks: PropTypes.func.isRequired,
 	}
   //TODO propTypes:  addBookToShelf: PropTypes.func.isRequired,
-
+  //TODO: list of books changes order when books are selected
 
   state = {
     books: [],
@@ -24,14 +24,10 @@ class SearchBooks extends Component{
   componentDidMount(){BooksAPI.search(this.state.query, this.state.maxResults)
     .then((books)=>this.setState({books}))}
   //componentDidMount(){BooksAPI.getAll().then((books)=>this.setState({books}))}
-//?????if (this.props.onSearchBooks) this.props.onSearchBooks(newBook)
 
-//TODO: make info available in BooksOnShelf
-submitBookToShelf = (target, id)=>{
-  console.log(target)
-  console.log(id)
-  this.props.onAddingToShelf(target, id)
-}
+  submitBookToShelf = (target, id)=>{
+    this.props.onAddingToShelf(target, id)
+  }
 
   //keeping the query state up-to-date
   updateQuery = (target)=>{
