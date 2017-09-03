@@ -1,18 +1,46 @@
 import React, {Component} from "react"
 import {Link} from "react-router-dom"
-import PropTypes from "prop-types";
+//import PropTypes from "prop-types";
+import * as BooksAPI from "./BooksAPI"
 
 
 
 class BooksOnShelf extends Component {
-  static propTypes = {
+  /*static propTypes = {
     // TODO
-	}
+	}*/
+
+  state = {
+      booksReading: [],
+      booksWantTo: [],
+      booksRead: [],
+    }
+
+  u/*pdateBookShelf = (newBook, shelf)=>{
+    BooksAPI.update(newBook, shelf).then((newBook)=>
+      this.setState((state, newBook)=>({
+        booksRead: state.booksRead.concat([newBook])
+      }))
+    )
+  }*/
+
+  getBookWithId = (id)=>{
+    BooksAPI.get(id)
+  }
+
+  //TODO
+  componentDidMount(){
+    let bookthing = {"title": "avx"}
+    console.log([bookthing])
+    this.updateBookShelf(bookthing, "booksRead")
+    console.log(this.state.booksRead)
+  }
+
 
   render(){
 
-    return(
 
+    return(
       <div className="list-books">
         <div className="list-books-title">
           <h1>MyReads</h1>
@@ -41,27 +69,11 @@ class BooksOnShelf extends Component {
                       <div className="book-authors">Harper Lee</div>
                     </div>
                   </li>
-                  <li>
-                    <div className="book">
-                      <div className="book-top">
-                        <div className="book-cover" style={{ width: 128, height: 188, backgroundImage: 'url("http://books.google.com/books/content?id=yDtCuFHXbAYC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72RRiTR6U5OUg3IY_LpHTL2NztVWAuZYNFE8dUuC0VlYabeyegLzpAnDPeWxE6RHi0C2ehrR9Gv20LH2dtjpbcUcs8YnH5VCCAH0Y2ICaKOTvrZTCObQbsfp4UbDqQyGISCZfGN&source=gbs_api")' }}></div>
-                        <div className="book-shelf-changer">
-                          <select>
-                            <option value="none" disabled>Move to...</option>
-                            <option value="currentlyReading">Currently Reading</option>
-                            <option value="wantToRead">Want to Read</option>
-                            <option value="read">Read</option>
-                            <option value="none">None</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="book-title">Enders Game</div>
-                      <div className="book-authors">Orson Scott Card</div>
-                    </div>
-                  </li>
                 </ol>
               </div>
             </div>
+
+
             <div className="bookshelf">
               <h2 className="bookshelf-title">Want to Read</h2>
               <div className="bookshelf-books">
@@ -84,27 +96,11 @@ class BooksOnShelf extends Component {
                       <div className="book-authors">David McCullough</div>
                     </div>
                   </li>
-                  <li>
-                    <div className="book">
-                      <div className="book-top">
-                        <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: 'url("http://books.google.com/books/content?id=wrOQLV6xB-wC&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72G3gA5A-Ka8XjOZGDFLAoUeMQBqZ9y-LCspZ2dzJTugcOcJ4C7FP0tDA8s1h9f480ISXuvYhA_ZpdvRArUL-mZyD4WW7CHyEqHYq9D3kGnrZCNiqxSRhry8TiFDCMWP61ujflB&source=gbs_api")' }}></div>
-                        <div className="book-shelf-changer">
-                          <select>
-                            <option value="none" disabled>Move to...</option>
-                            <option value="currentlyReading">Currently Reading</option>
-                            <option value="wantToRead">Want to Read</option>
-                            <option value="read">Read</option>
-                            <option value="none">None</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="book-title">Harry Potter and the Sorcerers Stone</div>
-                      <div className="book-authors">J.K. Rowling</div>
-                    </div>
-                  </li>
                 </ol>
               </div>
             </div>
+
+
             <div className="bookshelf">
               <h2 className="bookshelf-title">Read</h2>
               <div className="bookshelf-books">
@@ -127,55 +123,16 @@ class BooksOnShelf extends Component {
                       <div className="book-authors">J.R.R. Tolkien</div>
                     </div>
                   </li>
-                  <li>
-                    <div className="book">
-                      <div className="book-top">
-                        <div className="book-cover" style={{ width: 128, height: 174, backgroundImage: 'url("http://books.google.com/books/content?id=1q_xAwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE712CA0cBYP8VKbEcIVEuFJRdX1k30rjLM29Y-dw_qU1urEZ2cQ42La3Jkw6KmzMmXIoLTr50SWTpw6VOGq1leINsnTdLc_S5a5sn9Hao2t5YT7Ax1RqtQDiPNHIyXP46Rrw3aL8&source=gbs_api")' }}></div>
-                        <div className="book-shelf-changer">
-                          <select>
-                            <option value="none" disabled>Move to...</option>
-                            <option value="currentlyReading">Currently Reading</option>
-                            <option value="wantToRead">Want to Read</option>
-                            <option value="read">Read</option>
-                            <option value="none">None</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="book-title">Oh, the Places Youll Go!</div>
-                      <div className="book-authors">Seuss</div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="book">
-                      <div className="book-top">
-                        <div className="book-cover" style={{ width: 128, height: 192, backgroundImage: 'url("http://books.google.com/books/content?id=32haAAAAMAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE72yckZ5f5bDFVIf7BGPbjA0KYYtlQ__nWB-hI_YZmZ-fScYwFy4O_fWOcPwf-pgv3pPQNJP_sT5J_xOUciD8WaKmevh1rUR-1jk7g1aCD_KeJaOpjVu0cm_11BBIUXdxbFkVMdi&source=gbs_api")' }}></div>
-                        <div className="book-shelf-changer">
-                          <select>
-                            <option value="none" disabled>Move to...</option>
-                            <option value="currentlyReading">Currently Reading</option>
-                            <option value="wantToRead">Want to Read</option>
-                            <option value="read">Read</option>
-                            <option value="none">None</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="book-title">The Adventures of Tom Sawyer</div>
-                      <div className="book-authors">Mark Twain</div>
-                    </div>
-                  </li>
                 </ol>
               </div>
             </div>
           </div>
         </div>
+
         <div className="open-search">
           <Link to="/search"  >Add a book</Link>
         </div>
       </div>
-
-
-    )
-  }
-}
+)}}
 
 export default BooksOnShelf

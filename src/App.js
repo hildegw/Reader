@@ -5,37 +5,41 @@ import SearchBooks from "./SearchBooks"
 import BooksOnShelf from "./BooksOnShelf"
 
 
-class BooksApp extends React.Component {
-  state = {
-    booksOnShelf: [],
-  }
+//feature ideas:
+  //undo function when "move to none"
+  //nicer layout for context menu
+  //connect to Google books
+  //show book info when clicking on book
+  //connect to Amazon
+  //editable maxResults
+//TODO
+  //context menu and routing
 
-addBook = (newBook) => {
-  //TODO
-}
+
+class BooksApp extends React.Component {
+
+  addBookToShelf = (shelf, bookId) => {
+    console.log("App " + shelf + bookId)
+  }
 
   render() {
     return (
       <div className="app">
         <Route exact path="/" render={()=>(
-          <BooksOnShelf
-            booksOnShelf={this.state.booksOnShelf}
-            onMoveBook={()=>{
-              //TODO implement all the book-context menu items
-            }}/>
+          <BooksOnShelf />
         )}/>
 
         <Route path="/search" render={({history})=>(
           <SearchBooks
             onSearchBooks={(newBook)=>{
               history.push("/")
-              this.addBook(newBook)
+            }}
+            onAddingToShelf={(shelf, bookId)=>{
+              this.addBookToShelf(shelf, bookId)
             }}
           />
         )}/>
       </div>
-    )
-  }
-}
+  )}}
 
 export default BooksApp

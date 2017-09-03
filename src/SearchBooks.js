@@ -11,46 +11,50 @@ class SearchBooks extends Component{
   static propTypes = {
 		onSearchBooks: PropTypes.func.isRequired,
 	}
+  //TODO propTypes:  addBookToShelf: PropTypes.func.isRequired,
+
 
   state = {
     books: [],
-    query: "",
+    query: "Android",  //only limited list of search parameters available
+    maxResults: 5,
   }
 
   //fetching books from database
-  componentDidMount(){BooksAPI.getAll().then((books)=>this.setState({books}))}
+  componentDidMount(){BooksAPI.search(this.state.query, this.state.maxResults)
+    .then((books)=>this.setState({books}))}
+  //componentDidMount(){BooksAPI.getAll().then((books)=>this.setState({books}))}
+//?????if (this.props.onSearchBooks) this.props.onSearchBooks(newBook)
 
-  //adding a book to shelf
-  addBookToShelf = ()=>{
-    //TODO get event and value for newBook from input field
-    const newBook = ""
-    if (this.props.onSearchBooks) this.props.onSearchBooks(newBook)
-  }
+//TODO: make info available in BooksOnShelf
+submitBookToShelf = (target, id)=>{
+  console.log(target)
+  console.log(id)
+  this.props.onAddingToShelf(target, id)
+}
 
+  //keeping the query state up-to-date
   updateQuery = (target)=>{
   this.setState({query: target.trim()})
   }
-
   clearQuery = ()=>{this.setState({query: ""})}
 
+  //rendering the filtered books with thumbnail, title, and authors
   render(){
-    //render books with query results
-    let showBooks = []
     const {query, books} = this.state
-		if(query){
+
+    //filter books to render with query results
+    let showBooks = []
+    if(query){
 			const match = new RegExp(escapeRegExp(query), "i");
 			showBooks = books.filter(
         (book)=>{
           let isInFilter = false
           if(match.test(book.title) || match.test(book.authors)) {isInFilter = true;}
           return isInFilter
-        }
-      )
-		}else{
-			showBooks = books
-		}
-	  showBooks.sort(sortBy("name"));
-    console.log(showBooks)
+      })
+		} else { showBooks = books }
+	  showBooks.sort(sortBy("name"))
 
     return(
       <div className="search-books">
@@ -85,7 +89,8 @@ class SearchBooks extends Component{
                       backgroundImage: `url(${book.imageLinks.smallThumbnail})`}}>
                    </div>
                    <div className="book-shelf-changer">
-                     <select>
+                     <select onChange={(event)=>
+                        this.submitBookToShelf(event.target.value, book.id)}>
                        <option value="none" disabled>Move to...</option>
                        <option value="currentlyReading">Currently Reading</option>
                        <option value="wantToRead">Want to Read</option>
@@ -95,16 +100,14 @@ class SearchBooks extends Component{
                    </div>
                  </div>
                  <div className="book-title">{book.title}</div>
-                 { book.authors.map((author)=>
-                   <div className="book-authors" key={author} >{author}</div>)}
+                 { book.authors !== undefined && (book.authors.map((author)=>
+                   <div className="book-authors" key={author} >{author}</div>))}
                </div>
              </li>
            )}
           </ol>
         </div>
       </div>
-    )
-  }
-}
+)}}
 
 export default SearchBooks
