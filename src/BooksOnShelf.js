@@ -1,7 +1,6 @@
 import React, {Component} from "react"
 import {Link} from "react-router-dom"
 import PropTypes from "prop-types";
-import * as BooksAPI from "./BooksAPI"
 import ShowBook from "./ShowBook"
 
 
@@ -13,12 +12,11 @@ class BooksOnShelf extends Component {
 	}
 
 
-  //handing selected books over to App.js to store in book shelf
+  //handing books selected over to App.js first to store in book shelf
   addBookToShelf = (target, book)=>{
     this.props.onAddingToShelf(target, book)
     console.log("3a from BooksOnShelf addBookToShelf Function up with onAddingToShelf props "+ target + book)
   }
-
 
   changeBookShelf = (shelf, id)=>{
 
@@ -26,16 +24,8 @@ class BooksOnShelf extends Component {
 
 
 
-  /*/saving the added book shelf data to server and to myBooks state
-  addBookToShelf = (shelf, bookId) => {
-    BooksAPI.update(bookId, shelf).then((myBooks)=>this.setState({myBooks}))
-    console.log("5 App addBookToShelf function updates BookAPI and sets State " + shelf + bookId)
-    console.log(this.state.myBooks)
-  }*/
-
   render(){
-    const books = this.props.myBooks
-    const booksOnShelf = books.map(book=>book[1])
+    const booksOnShelf = this.props.myBooks
     console.log(booksOnShelf)
 
     return(

@@ -16,23 +16,30 @@ import * as BooksAPI from "./BooksAPI"
   //editable maxResults
 //TODO
   //context menu and routing URLs
+  //sort books
 
 
 class BooksApp extends React.Component {
   state = {
-    myBooks: [],        //[shelf, book]
+    myBooks: [],
     }
+
+  //fetching book shelf data from DB
+  componentDidMount(){BooksAPI.getAll()
+    .then((myBooks)=>this.setState({myBooks}))}
+
 
   //saving the added book shelf data to server and to myBooks state
   addBookToShelf = (shelf, book) => {
-      let bookToAdd = [shelf, book]
+      BooksAPI.update(book, shelf)
       this.setState(state=>({
-        myBooks: state.myBooks.concat([bookToAdd])
+        myBooks: state.myBooks.concat([book])
       }))
-    console.log(this.state)
     console.log("5 App addBookToShelf function updates BookAPI and sets State " + shelf + book)
     console.log(this.state.myBooks)
   }
+
+
 
 /*  rendering either the book shelfs or the search list
  *  myBooks data is handed down to BooksOnShelf
@@ -40,7 +47,7 @@ class BooksApp extends React.Component {
  */
 
   render() {
-
+    console.log(this.state.myBooks)
     return (
       <div className="app">
         <Route exact path="/" render={()=>(
