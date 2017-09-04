@@ -11,9 +11,9 @@ class ShowBook extends Component{
   //TODO: list of books changes order when books are selected, first selected is not added
 
   //handing selected books over to App.js via SearchBooks to store in book shelf
-  submitBookToShelf = (target, id)=>{
-    console.log("1 from showBooks event-submitBookToShelf-Function up to onAddingToShelf props in SearchBooks " + target + id)
-    this.props.onAddingToShelf(target, id)
+  submitBookToShelf = (target, book)=>{
+    console.log("1 from showBooks event-submitBookToShelf-Function up to onAddingToShelf props in BooksOnShelf " + target + book)
+    this.props.onAddingToShelf(target, book)
   }
 
 
@@ -32,7 +32,7 @@ class ShowBook extends Component{
            </div>
            <div className="book-shelf-changer">
              <select onChange={(event)=>
-                this.submitBookToShelf(event.target.value, book.id)}>
+                this.submitBookToShelf(event.target.value, book)}>
                <option value="none" disabled>Move to...</option>
                <option value="currentlyReading">Currently Reading</option>
                <option value="wantToRead">Want to Read</option>

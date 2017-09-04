@@ -20,19 +20,18 @@ import * as BooksAPI from "./BooksAPI"
 
 class BooksApp extends React.Component {
   state = {
-    currentlyIds: [],
-    } //just bookId and shelf info
+    myBooks: [],        //[shelf, book]
+    }
 
   //saving the added book shelf data to server and to myBooks state
-  addBookToShelf = (shelf, bookId) => {
-    if(shelf === "currentlyReading"){
+  addBookToShelf = (shelf, book) => {
+      let bookToAdd = [shelf, book]
       this.setState(state=>({
-        currentlyIds: state.currentlyIds.concat([bookId])
+        myBooks: state.myBooks.concat([bookToAdd])
       }))
-      console.log(this.state)
-    }
-    console.log("5 App addBookToShelf function updates BookAPI and sets State " + shelf + bookId)
-    console.log(this.state.currentlyIds)
+    console.log(this.state)
+    console.log("5 App addBookToShelf function updates BookAPI and sets State " + shelf + book)
+    console.log(this.state.myBooks)
   }
 
 /*  rendering either the book shelfs or the search list
@@ -47,6 +46,10 @@ class BooksApp extends React.Component {
         <Route exact path="/" render={()=>(
           <BooksOnShelf
             myBooks={this.state.myBooks}
+            onAddingToShelf={(shelf, book)=>{
+              this.addBookToShelf(shelf, book)
+              console.log("4b App from onAddingToShelf prop calling addBookToShelf with " + shelf + book)
+            }}
           />
         )}/>
 
@@ -55,9 +58,9 @@ class BooksApp extends React.Component {
             onSearchBooks={()=>{
               history.push("/")
             }}
-            onAddingToShelf={(shelf, bookId)=>{
-              this.addBookToShelf(shelf, bookId)
-              console.log("4 App from onAddingToShelf prop calling addBookToShelf with " + shelf + bookId)
+            onAddingToShelf={(shelf, book)=>{
+              this.addBookToShelf(shelf, book)
+              console.log("4b App from onAddingToShelf prop calling addBookToShelf with " + shelf + book)
             }}
           />
         )}/>

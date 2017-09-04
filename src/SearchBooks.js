@@ -5,12 +5,12 @@ import sortBy from "sort-by";
 import PropTypes from "prop-types";
 import * as BooksAPI from "./BooksAPI"
 import ShowBook from "./ShowBook"
+import BooksOnShelf from "./BooksOnShelf"
 
 class SearchBooks extends Component{
   //props to be renderd in App.js
   static propTypes = {
 		onSearchBooks: PropTypes.func.isRequired,
-    onAddingToShelf: PropTypes.func.isRequired,
 	}
   //TODO: list of books changes order when books are selected, first selected is not added
 
@@ -27,8 +27,9 @@ class SearchBooks extends Component{
   //componentDidMount(){BooksAPI.getAll().then((books)=>this.setState({books}))}
 
   //handing selected books over to App.js to store in book shelf
-  submitBookToShelf = (target, id)=>{
-    this.props.onAddingToShelf(target, id)
+  addBookToShelf = (target, book)=>{
+    this.props.onAddingToShelf(target, book)
+    console.log("3b from SearchBooks addBookToShelf Function up with onAddingToShelf props "+ target + book)
   }
 
   //keeping the query state up-to-date
@@ -37,11 +38,6 @@ class SearchBooks extends Component{
   }
   clearQuery = ()=>{this.setState({query: ""})}
 
-  //handing selected books over to App.js to store in book shelf
-  addBookToShelf = (target, id)=>{
-    this.props.onAddingToShelf(target, id)
-    console.log("3 from SearchBooks addBookToShelf Function up with onAddingToShelf props "+ target + id)
-  }
 
 
   //rendering the filtered books with thumbnail, title, and authors
@@ -93,9 +89,9 @@ class SearchBooks extends Component{
 
                <ShowBook
                  bookToShow={book}
-                 onAddingToShelf={(shelf, bookId)=>{
-                   this.addBookToShelf(shelf, bookId)
-                   console.log("2 SearchBooks from ShowBooks props call to addBookToShelf with "+ shelf + bookId)
+                 onAddingToShelf={(shelf, bookSelected)=>{
+                   this.addBookToShelf(shelf, bookSelected)
+                   console.log("2a BooksOnShelf from SearchBooks props call to addBookToShelf with "+ shelf + bookSelected)
                  }}
                />
 

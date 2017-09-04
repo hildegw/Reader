@@ -9,13 +9,22 @@ class BooksOnShelf extends Component {
 
   //the book shelf data is made available as myBooks prop
   static propTypes = {
-    myBooks: PropTypes.object.isRequired
+    myBooks: PropTypes.array.isRequired
 	}
 
   //state for fetching the books for shelf from DB
   state = {
     currentlyBooks: [],
+    currentlyId: [],
+    booksOnShelf: [],
   }
+
+  //handing selected books over to App.js to store in book shelf
+  addBookToShelf = (target, book)=>{
+    this.props.onAddingToShelf(target, book)
+    console.log("3a from BooksOnShelf addBookToShelf Function up with onAddingToShelf props "+ target + book)
+  }
+
 
   changeBookShelf = (shelf, id)=>{
 
@@ -24,17 +33,16 @@ class BooksOnShelf extends Component {
   //fetching the books in the shelf form DB via their ID
   //TODO other shelfs
   componentDidMount(){
-      const books = this.props.myBooks
-      if (books.currentlyReading !== undefined) {
-        books.currentlyReading.map((id)=>{
-          BooksAPI.get(id).then((book)=>{
-            //console.log(book)
-            this.setState(state=>({
-              currentlyBooks: state.currentlyBooks.concat([book])
-            }))
-          })
-        })
-    }}
+    const books = this.props.myBooks
+    books.map((book)=> {
+      BooksAPI.get(book[1].id).then((book)=>{
+        this.setState(state=>({
+          booksOnShelf: state.booksOnShelf.concat([book])
+        }))
+      })
+    })
+    console.log(this.state.booksOnShelf)
+  }
 
 
   /*/saving the added book shelf data to server and to myBooks state
@@ -64,13 +72,14 @@ class BooksOnShelf extends Component {
               <h2 className="bookshelf-title">Currently Reading</h2>
               <div className="bookshelf-books">
                 <ol className="books-grid">
-                 {this.state.currentlyBooks.map((book)=>
+                 {this.state.booksOnShelf.map((book)=>
                    <li key={book.id}>
 
                      <ShowBook
                        bookToShow={book}
-                       onAddingToShelf={(shelf, bookId)=>{
-                         this.changeBookShelf(shelf, bookId)
+                       onAddingToShelf={(shelf, bookSelected)=>{
+                         this.addBookToShelf(shelf, bookSelected)
+                         console.log("2b BooksOnShelf from ShowBooks props call to addBookToShelf with "+ shelf + bookSelected)
                        }}
                      />
 
