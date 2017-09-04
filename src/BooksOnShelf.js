@@ -15,10 +15,9 @@ class BooksOnShelf extends Component {
   //handing books selected over to App.js first to store in book shelf
   addBookToShelf = (target, book)=>{
     this.props.onAddingToShelf(target, book)
-    console.log("3a from BooksOnShelf addBookToShelf Function up with onAddingToShelf props "+ target + book)
   }
 
-  changeBookShelf = (shelf, id)=>{
+  changeBookShelf = (target, id)=>{
 
   }
 
@@ -44,9 +43,8 @@ class BooksOnShelf extends Component {
 
                      <ShowBook
                        bookToShow={book}
-                       onAddingToShelf={(shelf, bookSelected)=>{
-                         this.addBookToShelf(shelf, bookSelected)
-                         console.log("2b BooksOnShelf from ShowBooks props call to addBookToShelf with "+ shelf + bookSelected)
+                       onAddingToShelf={(target, bookSelected)=>{
+                         this.addBookToShelf(target, bookSelected)
                        }}
                      />
 

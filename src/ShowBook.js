@@ -12,7 +12,8 @@ class ShowBook extends Component{
 
   //handing selected books over to App.js via SearchBooks to store in book shelf
   submitBookToShelf = (target, book)=>{
-    console.log("1 from showBooks event-submitBookToShelf-Function up to onAddingToShelf props in BooksOnShelf " + target + book)
+    console.log("book from showBooks")
+    console.log(book)
     book.shelf = book.target
     this.props.onAddingToShelf(target, book)
   }

@@ -30,12 +30,19 @@ class BooksApp extends React.Component {
 
 
   //saving the added book shelf data to server and to myBooks state
-  addBookToShelf = (shelf, book) => {
-      BooksAPI.update(book, shelf)
+  addBookToShelf = (target, book) => {
+    book.shelf = target
+    console.log(book)
+    const booksOnShelf = this.state.myBooks
+    const knownBook = booksOnShelf.filter((myBook)=> myBook.id === book.id)
+    console.log(knownBook)
+    if(knownBook.length < 1){
+      console.log("unknown book")
+      BooksAPI.update(book, target)
       this.setState(state=>({
         myBooks: state.myBooks.concat([book])
       }))
-    console.log("5 App addBookToShelf function updates BookAPI and sets State " + shelf + book)
+    }
     console.log(this.state.myBooks)
   }
 
@@ -53,9 +60,8 @@ class BooksApp extends React.Component {
         <Route exact path="/" render={()=>(
           <BooksOnShelf
             myBooks={this.state.myBooks}
-            onAddingToShelf={(shelf, book)=>{
-              this.addBookToShelf(shelf, book)
-              console.log("4b App from onAddingToShelf prop calling addBookToShelf with " + shelf + book)
+            onAddingToShelf={(target, book)=>{
+              this.addBookToShelf(target, book)
             }}
           />
         )}/>
@@ -65,9 +71,8 @@ class BooksApp extends React.Component {
             onSearchBooks={()=>{
               history.push("/")
             }}
-            onAddingToShelf={(shelf, book)=>{
-              this.addBookToShelf(shelf, book)
-              console.log("4b App from onAddingToShelf prop calling addBookToShelf with " + shelf + book)
+            onAddingToShelf={(target, book)=>{
+              this.addBookToShelf(target, book)
             }}
           />
         )}/>
