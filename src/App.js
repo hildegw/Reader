@@ -52,7 +52,6 @@ class BooksApp extends React.Component {
  *  myBooks data is handed down to BooksOnShelf
  *  SearchBooks hands up books to add to shelf
  */
-
   render() {
     console.log(this.state.myBooks)
     return (
