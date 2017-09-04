@@ -40,6 +40,7 @@ class SearchBooks extends Component{
   //handing selected books over to App.js to store in book shelf
   addBookToShelf = (target, id)=>{
     this.props.onAddingToShelf(target, id)
+    console.log("3 from SearchBooks addBookToShelf Function up with onAddingToShelf props "+ target + id)
   }
 
 
@@ -94,6 +95,7 @@ class SearchBooks extends Component{
                  bookToShow={book}
                  onAddingToShelf={(shelf, bookId)=>{
                    this.addBookToShelf(shelf, bookId)
+                   console.log("2 SearchBooks from ShowBooks props call to addBookToShelf with "+ shelf + bookId)
                  }}
                />
 

@@ -20,12 +20,19 @@ import * as BooksAPI from "./BooksAPI"
 
 class BooksApp extends React.Component {
   state = {
-    myBooks: {} //just bookId and shelf info
-  }
+    currentlyIds: [],
+    } //just bookId and shelf info
 
   //saving the added book shelf data to server and to myBooks state
   addBookToShelf = (shelf, bookId) => {
-    BooksAPI.update(bookId, shelf).then((myBooks)=>this.setState({myBooks}))
+    if(shelf === "currentlyReading"){
+      this.setState(state=>({
+        currentlyIds: state.currentlyIds.concat([bookId])
+      }))
+      console.log(this.state)
+    }
+    console.log("5 App addBookToShelf function updates BookAPI and sets State " + shelf + bookId)
+    console.log(this.state.currentlyIds)
   }
 
 /*  rendering either the book shelfs or the search list
@@ -50,6 +57,7 @@ class BooksApp extends React.Component {
             }}
             onAddingToShelf={(shelf, bookId)=>{
               this.addBookToShelf(shelf, bookId)
+              console.log("4 App from onAddingToShelf prop calling addBookToShelf with " + shelf + bookId)
             }}
           />
         )}/>

@@ -12,6 +12,7 @@ class ShowBook extends Component{
 
   //handing selected books over to App.js via SearchBooks to store in book shelf
   submitBookToShelf = (target, id)=>{
+    console.log("1 from showBooks event-submitBookToShelf-Function up to onAddingToShelf props in SearchBooks " + target + id)
     this.props.onAddingToShelf(target, id)
   }
 
@@ -19,7 +20,7 @@ class ShowBook extends Component{
   //rendering the filtered books with thumbnail, title, and authors
   render(){
     const book = this.props.bookToShow
-    
+
     //displaying one book plus menu
     return(
        <div className="book">

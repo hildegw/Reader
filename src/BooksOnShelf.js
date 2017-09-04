@@ -21,22 +21,28 @@ class BooksOnShelf extends Component {
 
   }
 
-
-
+  //fetching the books in the shelf form DB via their ID
+  //TODO other shelfs
   componentDidMount(){
       const books = this.props.myBooks
       if (books.currentlyReading !== undefined) {
-        console.log(books)
-        console.log(books.currentlyReading)
         books.currentlyReading.map((id)=>{
           BooksAPI.get(id).then((book)=>{
-            console.log(book)
+            //console.log(book)
             this.setState(state=>({
               currentlyBooks: state.currentlyBooks.concat([book])
             }))
           })
         })
     }}
+
+
+  /*/saving the added book shelf data to server and to myBooks state
+  addBookToShelf = (shelf, bookId) => {
+    BooksAPI.update(bookId, shelf).then((myBooks)=>this.setState({myBooks}))
+    console.log("5 App addBookToShelf function updates BookAPI and sets State " + shelf + bookId)
+    console.log(this.state.myBooks)
+  }*/
 
 
   /* this is what the returned data looks like TODO
@@ -46,7 +52,7 @@ class BooksOnShelf extends Component {
   */
 
   render(){
-    console.log(this.state.currentlyBooks)
+    //console.log(this.state.currentlyBooks)
     return(
       <div className="list-books">
         <div className="list-books-title">
