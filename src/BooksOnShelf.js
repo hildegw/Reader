@@ -12,12 +12,6 @@ class BooksOnShelf extends Component {
     myBooks: PropTypes.array.isRequired
 	}
 
-  //state for fetching the books for shelf from DB
-  state = {
-    currentlyBooks: [],
-    currentlyId: [],
-    booksOnShelf: [],
-  }
 
   //handing selected books over to App.js to store in book shelf
   addBookToShelf = (target, book)=>{
@@ -30,19 +24,6 @@ class BooksOnShelf extends Component {
 
   }
 
-  //fetching the books in the shelf form DB via their ID
-  //TODO other shelfs
-  componentDidMount(){
-    const books = this.props.myBooks
-    books.map((book)=> {
-      BooksAPI.get(book[1].id).then((book)=>{
-        this.setState(state=>({
-          booksOnShelf: state.booksOnShelf.concat([book])
-        }))
-      })
-    })
-    console.log(this.state.booksOnShelf)
-  }
 
 
   /*/saving the added book shelf data to server and to myBooks state
@@ -52,15 +33,11 @@ class BooksOnShelf extends Component {
     console.log(this.state.myBooks)
   }*/
 
-
-  /* this is what the returned data looks like TODO
-    {currentlyReading  :  (2) ["nggnmAEACAAJ", "sJf1vQAACAAJ"]
-    read  :  (3) ["jAUODAAAQBAJ", "IOejDAAAQBAJ", "1wy49i-gQjIC"]
-    wantToRead :  (2) ["evuwdDLfAyYC", "74XNzF_al3MC"]}
-  */
-
   render(){
-    //console.log(this.state.currentlyBooks)
+    const books = this.props.myBooks
+    const booksOnShelf = books.map(book=>book[1])
+    console.log(booksOnShelf)
+
     return(
       <div className="list-books">
         <div className="list-books-title">
@@ -72,7 +49,7 @@ class BooksOnShelf extends Component {
               <h2 className="bookshelf-title">Currently Reading</h2>
               <div className="bookshelf-books">
                 <ol className="books-grid">
-                 {this.state.booksOnShelf.map((book)=>
+                 {booksOnShelf.map((book)=>
                    <li key={book.id}>
 
                      <ShowBook
