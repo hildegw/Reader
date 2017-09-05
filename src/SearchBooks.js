@@ -5,12 +5,12 @@ import sortBy from "sort-by";
 import PropTypes from "prop-types";
 import * as BooksAPI from "./BooksAPI"
 import ShowBook from "./ShowBook"
-import BooksOnShelf from "./BooksOnShelf"
 
 class SearchBooks extends Component{
   //props to be renderd in App.js
   static propTypes = {
 		onSearchBooks: PropTypes.func.isRequired,
+    onAddingToShelf: PropTypes.func.isRequired
 	}
   //TODO: list of books changes order when books are selected, first selected is not added
 
@@ -54,7 +54,7 @@ class SearchBooks extends Component{
           return isInFilter
       })
 		} else { showBooks = books }
-	  showBooks.sort(sortBy("name"))
+	  showBooks.sort(sortBy("title"))
 
 
     //displaying the list of books
@@ -85,14 +85,12 @@ class SearchBooks extends Component{
           <ol className="books-grid">
            {showBooks.map((book)=>
              <li key={book.id}>
-
                <ShowBook
                  bookToShow={book}
                  onAddingToShelf={(target, bookSelected)=>{
                    this.addBookToShelf(target, bookSelected)
                  }}
                />
-
              </li>
            )}
           </ol>

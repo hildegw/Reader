@@ -12,12 +12,8 @@ class ShowBook extends Component{
 
   //handing selected books over to App.js via SearchBooks to store in book shelf
   submitBookToShelf = (target, book)=>{
-    console.log("book from showBooks")
-    console.log(book)
-    book.shelf = book.target
     this.props.onAddingToShelf(target, book)
   }
-
 
   //rendering the filtered books with thumbnail, title, and authors
   render(){
@@ -33,7 +29,7 @@ class ShowBook extends Component{
               backgroundImage: `url(${book.imageLinks.smallThumbnail})`}}>
            </div>
            <div className="book-shelf-changer">
-             <select onChange={(event)=>
+             <select onClick={(event)=>
                 this.submitBookToShelf(event.target.value, book)}>
                <option value="none" disabled>Move to...</option>
                <option value="currentlyReading">Currently Reading</option>

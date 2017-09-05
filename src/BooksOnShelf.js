@@ -2,30 +2,25 @@ import React, {Component} from "react"
 import {Link} from "react-router-dom"
 import PropTypes from "prop-types";
 import ShowBook from "./ShowBook"
+import sortBy from "sort-by";
 
 
 class BooksOnShelf extends Component {
 
   //the book shelf data is made available as myBooks prop
   static propTypes = {
-    myBooks: PropTypes.array.isRequired
+    myBooks: PropTypes.array.isRequired,
+    onAddingToShelf: PropTypes.func.isRequired
 	}
-
 
   //handing books selected over to App.js first to store in book shelf
   addBookToShelf = (target, book)=>{
     this.props.onAddingToShelf(target, book)
   }
 
-  changeBookShelf = (target, id)=>{
-
-  }
-
-
-
   render(){
     const booksOnShelf = this.props.myBooks
-    console.log(booksOnShelf)
+    booksOnShelf.sort(sortBy("title"))
 
     return(
       <div className="list-books">

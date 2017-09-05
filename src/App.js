@@ -32,28 +32,16 @@ class BooksApp extends React.Component {
   //saving the added book shelf data to server and to myBooks state
   addBookToShelf = (target, book) => {
     book.shelf = target
-    console.log(book)
-    const booksOnShelf = this.state.myBooks
-    const knownBook = booksOnShelf.filter((myBook)=> myBook.id === book.id)
-    console.log(knownBook)
-    if(knownBook.length < 1){
-      console.log("unknown book")
-      BooksAPI.update(book, target)
-      this.setState(state=>({
-        myBooks: state.myBooks.concat([book])
-      }))
-    }
-    console.log(this.state.myBooks)
+    BooksAPI.update(book, target)
+    BooksAPI.getAll()
+      .then((myBooks)=>this.setState({myBooks}))
   }
-
-
 
 /*  rendering either the book shelfs or the search list
  *  myBooks data is handed down to BooksOnShelf
  *  SearchBooks hands up books to add to shelf
  */
   render() {
-    console.log(this.state.myBooks)
     return (
       <div className="app">
         <Route exact path="/" render={()=>(
