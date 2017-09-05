@@ -5,18 +5,13 @@ import SearchBooks from "./SearchBooks"
 import BooksOnShelf from "./BooksOnShelf"
 import * as BooksAPI from "./BooksAPI"
 
-
 //feature ideas:
   //undo function when "move to none"
   //nicer layout for context menu
   //connect to Google books
   //show book info when clicking on book
   //connect to Amazon    let book = {shelf: shelf, id: bookId}
-
   //editable maxResults
-//TODO
-  //context menu and routing URLs
-  //sort books
 
 
 class BooksApp extends React.Component {
@@ -49,7 +44,6 @@ class BooksApp extends React.Component {
           }})
       }
   }
-
 
 /*  rendering either the book shelfs or the search list
  *  myBooks data is handed down to BooksOnShelf

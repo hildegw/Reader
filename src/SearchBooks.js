@@ -27,7 +27,6 @@ class SearchBooks extends Component{
     maxResults: 25,
   }
 
-  //TODO understand how DB should behave
   //fetching books from database
   componentDidMount(){BooksAPI.search(this.state.query, this.state.maxResults)
     .then((books)=>this.setState({books}))}
@@ -45,9 +44,6 @@ class SearchBooks extends Component{
      //.then((books)=>this.setState({target}))
   }
   clearQuery = ()=>{this.setState({query: ""})}
-
-
-
 
   //rendering the filtered books with thumbnail, title, and authors
   render(){

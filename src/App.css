@@ -133,6 +133,12 @@ body, .app {
   color: #999;
 }
 
+.book-shelf-info{
+  font-size:  1em;
+  margin-top: 10px;
+  color: #2e7c31;
+}
+
 .book-top {
   position: relative;
   height: 200px;
