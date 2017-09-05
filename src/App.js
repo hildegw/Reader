@@ -25,17 +25,28 @@ class BooksApp extends React.Component {
     }
 
   //fetching book shelf data from DB
-  componentDidMount(){BooksAPI.getAll()
-    .then((myBooks)=>this.setState({myBooks}))}
-
+  componentDidMount(){
+    BooksAPI.getAll()
+    .then((myBooks)=>this.setState({myBooks}))
+  }
 
   //saving the added book shelf data to server and to myBooks state
-  addBookToShelf = (target, book) => {
+  addBookToShelf = (target, book)=> {
     book.shelf = target
     BooksAPI.update(book, target)
-    BooksAPI.getAll()
-      .then((myBooks)=>this.setState({myBooks}))
+    this.setState(state => {
+          return {
+            myBooks: state.myBooks.map(myBook => {
+              myBook.shelf = myBook.id === book.id ? target : myBook.shelf
+              return myBook
+            })
+        }})
+    console.log(this.state.myBooks)
   }
+  //TODO: check, if necessary to call data from DB
+    /*BooksAPI.getAll()
+      .then((myBooks)=>this.setState({myBooks}))}*/
+
 
 /*  rendering either the book shelfs or the search list
  *  myBooks data is handed down to BooksOnShelf
