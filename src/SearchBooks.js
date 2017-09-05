@@ -23,10 +23,11 @@ class SearchBooks extends Component{
   //keeping track of books to display
   state = {
     books: [],
-    query: "Cook",   //only limited list of search parameters available
+    query: "Art",   //only limited list of search parameters available
     maxResults: 25,
   }
 
+  //TODO understand how DB should behave
   //fetching books from database
   componentDidMount(){BooksAPI.search(this.state.query, this.state.maxResults)
     .then((books)=>this.setState({books}))}
@@ -39,9 +40,12 @@ class SearchBooks extends Component{
 
   //keeping the query state up-to-date
   updateQuery = (target)=>{
-  this.setState({query: target.trim()})
+    this.setState({query: target.trim()})
+    //BooksAPI.search(this.state.query, this.state.maxResults)
+     //.then((books)=>this.setState({target}))
   }
   clearQuery = ()=>{this.setState({query: ""})}
+
 
 
 

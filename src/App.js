@@ -30,22 +30,25 @@ class BooksApp extends React.Component {
     .then((myBooks)=>this.setState({myBooks}))
   }
 
-  //saving the added book shelf data to server and to myBooks state
+  //update database and myBooks state when books are added or shelf is changed
   addBookToShelf = (target, book)=> {
     book.shelf = target
     BooksAPI.update(book, target)
-    this.setState(state => {
-          return {
-            myBooks: state.myBooks.map(myBook => {
-              myBook.shelf = myBook.id === book.id ? target : myBook.shelf
-              return myBook
-            })
-        }})
-    console.log(this.state.myBooks)
+    let knownBook = this.state.myBooks.filter(myBook=> myBook.id === book.id)
+    if(knownBook.length<1){
+      this.setState(state => ({
+        myBooks: state.myBooks.concat([book])
+      }))
+    } else {
+      this.setState(state => {
+            return {
+              myBooks: state.myBooks.map(myBook => {
+                myBook.shelf = myBook.id === book.id ? target : myBook.shelf
+                return myBook
+              })
+          }})
+      }
   }
-  //TODO: check, if necessary to call data from DB
-    /*BooksAPI.getAll()
-      .then((myBooks)=>this.setState({myBooks}))}*/
 
 
 /*  rendering either the book shelfs or the search list
@@ -53,6 +56,8 @@ class BooksApp extends React.Component {
  *  SearchBooks hands up books to add to shelf
  */
   render() {
+    console.log(this.state.myBooks)
+
     return (
       <div className="app">
         <Route exact path="/" render={()=>(

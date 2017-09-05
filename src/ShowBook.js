@@ -8,7 +8,6 @@ class ShowBook extends Component{
 		bookToShow: PropTypes.object.isRequired,
     onAddingToShelf: PropTypes.func.isRequired,
 	}
-  //TODO: list of books changes order when books are selected, first selected is not added
 
   //handing selected books over to App.js via SearchBooks to store in book shelf
   submitBookToShelf = (target, book)=>{
