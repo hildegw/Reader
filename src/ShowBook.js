@@ -35,11 +35,9 @@ class ShowBook extends Component{
   //rendering the filtered books with thumbnail, title, and authors
   render(){
     const book = this.props.bookToShow
-    console.log(this.state.bookShelf)
     //displaying one book plus menu
     return(
        <div className="book">
-
          <div className="book-top">
            <div className="book-cover"
             style={{ width: 128, height: 193,
@@ -49,10 +47,18 @@ class ShowBook extends Component{
              <select onClick={(event)=>
                 this.submitBookToShelf(event.target.value, book)}>
                <option value="none" disabled>Move to...</option>
-               <option value="currentlyReading" >Currently Reading</option>
-               <option value="wantToRead"  >Want to Read</option>
-               <option value="read">Read</option>
-               <option value="none">None</option>
+               {book.shelf === "currentlyReading" ?
+               <option value="currentlyReading" > Currently Reading ✔</option> :
+               <option value="currentlyReading" >Currently Reading</option> }
+               {book.shelf === "wantToRead" ?
+               <option value="wantToRead"  >Want to Read ✔ </option> :
+               <option value="wantToRead"  >Want to Read</option> }
+               {book.shelf === "read" ?
+               <option value="read">Read ✔ </option> :
+               <option value="read">Read</option> }
+               {book.shelf === "none" ?
+               <option value="none">None ✔ </option> :
+               <option value="none">None</option> }
              </select>
            </div>
          </div>
