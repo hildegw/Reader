@@ -50,8 +50,6 @@ class BooksApp extends React.Component {
  *  SearchBooks hands up books to add to shelf
  */
   render() {
-    console.log(this.state.myBooks)
-
     return (
       <div className="app">
         <Route exact path="/" render={()=>(

@@ -1,6 +1,5 @@
 import React, {Component} from "react"
 import {Link} from "react-router-dom"
-import escapeRegExp from "escape-string-regexp";
 import sortBy from "sort-by";
 import PropTypes from "prop-types";
 import * as BooksAPI from "./BooksAPI"
@@ -14,13 +13,6 @@ class SearchBooks extends Component{
     onAddingToShelf: PropTypes.func.isRequired
 	}
 
-  /*
-    NOTES: The search from BooksAPI is limited to a particular set of search terms.
-    You can find these search terms here:
-    https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-    However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-    you don't find a specific author or title. Every search is limited by search terms.
-  */
   //keeping track of books to display
   state = {
     books: [],
@@ -28,23 +20,22 @@ class SearchBooks extends Component{
     maxResults: 25,
   }
 
-  //fetching books from database
-  //componentDidMount(){BooksAPI.search(this.state.query, this.state.maxResults)
-  //  .then((books)=>this.setState({books}))}
-  //componentDidMount(){BooksAPI.getAll().then((books)=>this.setState({books}))}
-
   //handing selected books over to App.js to store in book shelf
   addBookToShelf = (target, book)=>{
     this.props.onAddingToShelf(target, book)
-  }
+    this.setState(state => {
+      return {
+        books: state.books.map(myBook => {
+          myBook.shelf = myBook.id === book.id ? target : myBook.shelf
+          return myBook
+        })
+    }})}
 
-  //keeping the query state up-to-date
+  //getting books from query, keeping the query state up-to-date
   startQuery = (query)=>{
-    console.log(query)
     this.setState({query: query})
     const searchTerms = ['Android', 'Art', 'Artificial Intelligence', 'Astronomy', 'Austen', 'Baseball', 'Basketball', 'Bhagat', 'Biography', 'Brief', 'Business', 'Camus', 'Cervantes', 'Christie', 'Classics', 'Comics', 'Cook', 'Cricket', 'Cycling', 'Desai', 'Design', 'Development', 'Digital Marketing', 'Drama', 'Drawing', 'Dumas', 'Education', 'Everything', 'Fantasy', 'Film', 'Finance', 'First', 'Fitness', 'Football', 'Future', 'Games', 'Gandhi', 'Homer', 'Horror', 'Hugo', 'Ibsen', 'Journey', 'Kafka', 'King', 'Lahiri', 'Larsson', 'Learn', 'Literary Fiction', 'Make', 'Manage', 'Marquez', 'Money', 'Mystery', 'Negotiate', 'Painting', 'Philosophy', 'Photography', 'Poetry', 'Production', 'Programming', 'React', 'Redux', 'River', 'Robotics', 'Rowling', 'Satire', 'Science Fiction', 'Shakespeare', 'Singh', 'Swimming', 'Tale', 'Thrun', 'Time', 'Tolstoy', 'Travel', 'Ultimate', 'Virtual Reality', 'Web Development', 'iOS']
     const queryChecked = searchTerms.filter(searchTerm => query === searchTerm)
-    console.log(queryChecked)
     if(queryChecked.length>0){
       BooksAPI.search(queryChecked[0], this.state.maxResults)
         .then((books)=>{
@@ -52,32 +43,23 @@ class SearchBooks extends Component{
             this.setState({books: books})
           }
         }
-
-        //BooksAPI.search(this.state.query, this.state.maxResults)
-         //.then((books)=>this.setState({target}))
   )}}
 
   clearQuery = ()=>{this.setState({query: ""})}
-
-  //startQuery
 
   //rendering the filtered books with thumbnail, title, and authors
   render(){
     const {query, books} = this.state
 
-    //filtering books to render with query results
+    //filtering the books that are already on the shelf
     let showBooks = []
-    /*if(query){
-			const match = new RegExp(escapeRegExp(query), "i");
-			showBooks = books.filter(
-        (book)=>{
-          let isInFilter = false
-          if(match.test(book.title) || match.test(book.authors)) {isInFilter = true;}
-          return isInFilter
-      })
-		} else { showBooks = books }*/
-    showBooks=books;
+    showBooks = books.map(book=>{
+        let knownBook = this.props.myBooks.filter(myBook => myBook.id === book.id)
+        if (knownBook.length>0) return book=knownBook[0]
+        else return book
+    })
     showBooks.sort(sortBy("title"))
+
 
 
     //displaying the list of books

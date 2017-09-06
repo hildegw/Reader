@@ -35,6 +35,7 @@ class ShowBook extends Component{
   //rendering the filtered books with thumbnail, title, and authors
   render(){
     const book = this.props.bookToShow
+
     //displaying one book plus menu
     return(
        <div className="book">
