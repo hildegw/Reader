@@ -13,10 +13,8 @@ class ShowBook extends Component{
     bookShelf: ""
   }
 
-  //handing selected books over to App.js via SearchBooks to store in book shelf
-  submitBookToShelf = (target, book)=>{
-    this.props.onAddingToShelf(target, book)
-    book.shelf = target
+  //setting the state with strings to be displayed
+  settingState = (target) => {
     let shelfString = ""
     switch (target) {
       case "currentlyReading": shelfString = "Currently Reading";
@@ -29,14 +27,26 @@ class ShowBook extends Component{
         break;
       default: shelfString = "";
     }
-    this.setState(()=>({bookShelf: shelfString}))
+    this.setState({bookShelf: shelfString})
+  }
+
+  //setting the shelf state for the book
+  componentDidMount(){
+    this.settingState(this.props.bookToShow.shelf)
+  }
+
+  //handing selected books over to App.js via SearchBooks to store in book shelf
+  submitBookToShelf = (target, book)=>{
+    this.props.onAddingToShelf(target, book)
+    book.shelf = target
+    this.settingState(target)
   }
 
   //rendering the filtered books with thumbnail, title, and authors
   render(){
     const book = this.props.bookToShow
 
-    //displaying one book plus menu
+    //displaying one book and menu
     return(
        <div className="book">
          <div className="book-top">
