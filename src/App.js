@@ -36,14 +36,13 @@ class BooksApp extends React.Component {
       }))
     } else {
       this.setState(state => {
-            return {
-              myBooks: state.myBooks.map(myBook => {
-                myBook.shelf = myBook.id === book.id ? target : myBook.shelf
-                return myBook
-              })
-          }})
-      }
-  }
+        return {
+          myBooks: state.myBooks.map(myBook => {
+            myBook.shelf = myBook.id === book.id ? target : myBook.shelf
+            return myBook
+          })
+        }})
+  }}
 
 /*  rendering either the book shelfs or the search list
  *  myBooks data is handed down to BooksOnShelf
@@ -55,9 +54,7 @@ class BooksApp extends React.Component {
         <Route exact path="/" render={()=>(
           <BooksOnShelf
             myBooks={this.state.myBooks}
-            onAddingToShelf={(target, book)=>{
-              this.addBookToShelf(target, book)
-            }}
+            onAddingToShelf={this.addBookToShelf}
           />
         )}/>
 
@@ -67,9 +64,7 @@ class BooksApp extends React.Component {
             onSearchBooks={()=>{
               history.push("/")
             }}
-            onAddingToShelf={(target, book)=>{
-              this.addBookToShelf(target, book)
-            }}
+            onAddingToShelf={this.addBookToShelf}
           />
         )}/>
       </div>

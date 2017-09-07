@@ -1,9 +1,9 @@
 import React, {Component} from "react"
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"
 
 
 class ContextMenu extends Component{
-  //props to be renderd in App.js
+
   static propTypes = {
 		bookToShow: PropTypes.object.isRequired,
     onAddingToShelf: PropTypes.func.isRequired,

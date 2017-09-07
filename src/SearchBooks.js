@@ -1,12 +1,13 @@
 import React, {Component} from "react"
 import {Link} from "react-router-dom"
-import sortBy from "sort-by";
-import PropTypes from "prop-types";
+import sortBy from "sort-by"
+import PropTypes from "prop-types"
 import * as BooksAPI from "./BooksAPI"
 import ShowBook from "./ShowBook"
 
+
 class SearchBooks extends Component{
-  //props to be renderd in App.js
+
   static propTypes = {
     myBooks: PropTypes.array.isRequired,
 		onSearchBooks: PropTypes.func.isRequired,
@@ -17,19 +18,18 @@ class SearchBooks extends Component{
   state = {
     books: [],
     query: "",   //only limited list of search parameters available
-    maxResults: 25,
   }
 
   //handing selected books over to App.js to store in book shelf
   addBookToShelf = (target, book)=>{
     this.props.onAddingToShelf(target, book)
-    this.setState(state => {
-      return {
+    this.setState(state => ({
         books: state.books.map(myBook => {
           myBook.shelf = myBook.id === book.id ? target : myBook.shelf
           return myBook
         })
-    }})}
+    }))
+  }
 
   //getting books from query, keeping the query state up-to-date
   startQuery = (query)=>{
@@ -48,7 +48,7 @@ class SearchBooks extends Component{
     'Ultimate', 'Virtual Reality', 'Web Development', 'iOS']
     const queryChecked = searchTerms.filter(searchTerm => query === searchTerm)
     if(queryChecked.length>0){
-      BooksAPI.search(queryChecked[0], this.state.maxResults)
+      BooksAPI.search(queryChecked[0], 25)
         .then((books)=>{
           if(books !== undefined){
             this.setState({books: books})
@@ -71,12 +71,9 @@ class SearchBooks extends Component{
     })
     showBooks.sort(sortBy("title"))
 
-
-
     //displaying the list of books
     return(
       <div className="search-books">
-
         <div className="search-books-bar">
           <Link to="/" className="close-search" innerRef={this.clearQuery}/>
           <div className="search-books-input-wrapper">
@@ -88,8 +85,6 @@ class SearchBooks extends Component{
             />
           </div>
         </div>
-
-
         <div className="search-books-results">
           <ol className="books-grid">
            {showBooks.map((book)=>

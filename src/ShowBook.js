@@ -1,10 +1,10 @@
 import React, {Component} from "react"
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"
 import ContextMenu from "./ContextMenu"
 
 
 class ShowBook extends Component{
-  //props to be renderd in App.js
+
   static propTypes = {
 		bookToShow: PropTypes.object.isRequired,
     onAddingToShelf: PropTypes.func.isRequired,
@@ -18,15 +18,15 @@ class ShowBook extends Component{
   settingState = (target) => {
     let shelfString = ""
     switch (target) {
-      case "currentlyReading": shelfString = "Currently Reading";
-        break;
-      case "wantToRead": shelfString = "Want to Read";
-        break;
-      case "read": shelfString = "Read";
-        break;
-      case "none": shelfString = "None";
-        break;
-      default: shelfString = "";
+      case "currentlyReading": shelfString = "Currently Reading"
+        break
+      case "wantToRead": shelfString = "Want to Read"
+        break
+      case "read": shelfString = "Read"
+        break
+      case "none": shelfString = "None"
+        break
+      default: shelfString = ""
     }
     this.setState({bookShelf: shelfString})
   }
@@ -54,14 +54,12 @@ class ShowBook extends Component{
            <div className="book-cover"
             style={{backgroundImage: `url(${book.imageLinks.smallThumbnail})`}}
            />
-
            <ContextMenu
              bookToShow={book}
              onAddingToShelf={(target, book)=>{
                this.submitBookToShelf(target, book)
              }}
            />
-
          </div>
          <div className="book-shelf-info">{bookShelf}</div>
          <div className="book-title">{book.title}</div>

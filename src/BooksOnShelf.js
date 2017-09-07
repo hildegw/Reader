@@ -1,13 +1,12 @@
 import React, {Component} from "react"
 import {Link} from "react-router-dom"
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"
 import ShowBook from "./ShowBook"
-import sortBy from "sort-by";
+import sortBy from "sort-by"
 
 
 class BooksOnShelf extends Component {
 
-  //the book shelf data is made available as myBooks prop
   static propTypes = {
     myBooks: PropTypes.array.isRequired,
     onAddingToShelf: PropTypes.func.isRequired
@@ -68,7 +67,6 @@ class BooksOnShelf extends Component {
                 </ol>
               </div>
             </div>
-
 
             <div className="bookshelf">
               <h2 className="bookshelf-title"></h2>
