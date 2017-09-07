@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 import {Link} from "react-router-dom"
 import PropTypes from "prop-types"
-import ShowBook from "./ShowBook"
+import BookShelf from "./BookShelf"
 import sortBy from "sort-by"
 
 
@@ -28,66 +28,10 @@ class BooksOnShelf extends Component {
         </div>
         <div className="list-books-content">
           <div>
-            <div className="bookshelf">
-              <h2 className="bookshelf-title"></h2>
-              <div className="bookshelf-books">
-                <ol className="books-grid">
-                 {booksOnShelf
-                   .filter((book)=> book.shelf === "currentlyReading")
-                   .map((book)=>
-                   <li key={book.id}>
-                     <ShowBook
-                       bookToShow={book}
-                       onAddingToShelf={(target, bookSelected)=>{
-                         this.addBookToShelf(target, bookSelected)
-                       }}
-                     />
-                   </li>
-                 )}
-                </ol>
-              </div>
-            </div>
-
-            <div className="bookshelf">
-              <h2 className="bookshelf-title"></h2>
-              <div className="bookshelf-books">
-                <ol className="books-grid">
-                  {booksOnShelf
-                    .filter((book)=> book.shelf === "wantToRead")
-                    .map((book)=>
-                    <li key={book.id}>
-                      <ShowBook
-                        bookToShow={book}
-                        onAddingToShelf={(target, bookSelected)=>{
-                          this.addBookToShelf(target, bookSelected)
-                        }}
-                      />
-                    </li>
-                  )}
-                </ol>
-              </div>
-            </div>
-
-            <div className="bookshelf">
-              <h2 className="bookshelf-title"></h2>
-              <div className="bookshelf-books">
-                <ol className="books-grid">
-                  {booksOnShelf
-                    .filter((book)=> book.shelf === "read")
-                    .map((book)=>
-                    <li key={book.id}>
-                      <ShowBook
-                        bookToShow={book}
-                        onAddingToShelf={(target, bookSelected)=>{
-                          this.addBookToShelf(target, bookSelected)
-                        }}
-                      />
-                    </li>
-                  )}
-                </ol>
-              </div>
-            </div>
-
+            <BookShelf
+              myBooks={this.props.myBooks}
+              onAddingToShelf={this.addBookToShelf}
+            />
           </div>
         </div>
 
