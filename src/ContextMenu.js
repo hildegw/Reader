@@ -7,41 +7,11 @@ class ContextMenu extends Component{
   static propTypes = {
 		bookToShow: PropTypes.object.isRequired,
     onAddingToShelf: PropTypes.func.isRequired,
-    onSelectingShelf: PropTypes.func.isRequired,
 	}
 
-  state = {
-    bookShelf: ""
-  }
-
-  //setting the state with strings to be displayed
-  settingState = (target) => {
-    let shelfString = ""
-    switch (target) {
-      case "currentlyReading": shelfString = "Currently Reading";
-        break;
-      case "wantToRead": shelfString = "Want to Read";
-        break;
-      case "read": shelfString = "Read";
-        break;
-      case "none": shelfString = "None";
-        break;
-      default: shelfString = "";
-    }
-    this.setState({bookShelf: shelfString})
-    this.props.onSelectingShelf(shelfString)
-  }
-
-  //setting the shelf state for the book and handing it over to ShowBooks
-  componentDidMount(){
-    this.settingState(this.props.bookToShow.shelf)
-  }
-
-  //handing selected books over to App.js via SearchBooks to store in book shelf
+  //handing selected books over to App.js to show in book shelfs
   submitBookToShelf = (target, book)=>{
     this.props.onAddingToShelf(target, book)
-    book.shelf = target
-    this.settingState(target)
   }
 
   //rendering the filtered books with thumbnail, title, and authors

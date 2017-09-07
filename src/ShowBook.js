@@ -14,19 +14,38 @@ class ShowBook extends Component{
     bookShelf: ""
   }
 
-  //storing the book shelf data from the Context Menu in bookShelf variable
-  setBookShelf = (shelf)=>{
-    this.setState({bookShelf: shelf})
+  //setting the state with strings to be displayed
+  settingState = (target) => {
+    let shelfString = ""
+    switch (target) {
+      case "currentlyReading": shelfString = "Currently Reading";
+        break;
+      case "wantToRead": shelfString = "Want to Read";
+        break;
+      case "read": shelfString = "Read";
+        break;
+      case "none": shelfString = "None";
+        break;
+      default: shelfString = "";
+    }
+    this.setState({bookShelf: shelfString})
   }
 
-  //handing selected books over to App.js via SearchBooks to store in book shelf
+  //setting the shelf state for the book and handing it over to ShowBooks
+  componentDidMount(){
+    this.settingState(this.props.bookToShow.shelf)
+  }
+
+  //receiving book and shelf info to hand over to App and to set state
   submitBookToShelf = (target, book)=>{
     this.props.onAddingToShelf(target, book)
+    this.settingState(this.props.bookToShow.shelf)
   }
 
   //rendering the filtered books with thumbnail, title, and authors
   render(){
     const book = this.props.bookToShow
+    const bookShelf = this.state.bookShelf
 
     //displaying one book and menu
     return(
@@ -38,16 +57,13 @@ class ShowBook extends Component{
 
            <ContextMenu
              bookToShow={book}
-             onAddingToShelf={(target, bookSelected)=>{
-               this.submitBookToShelf(target, bookSelected)
-             }}
-             onSelectingShelf={(shelf)=>{
-               this.setBookShelf(shelf)
+             onAddingToShelf={(target, book)=>{
+               this.submitBookToShelf(target, book)
              }}
            />
 
          </div>
-         <div className="book-shelf-info">{this.state.bookShelf}</div>
+         <div className="book-shelf-info">{bookShelf}</div>
          <div className="book-title">{book.title}</div>
          <div className="book-authors" >
           { book.authors ? book.authors.join(", ") : "" }
